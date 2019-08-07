@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IPayPalConfig, ICreateOrderRequest, IAddressPortable } from 'ngx-paypal';
+import {
+  IPayPalConfig,
+  ICreateOrderRequest,
+  IAddressPortable
+} from 'ngx-paypal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-
-
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 
 @Component({
   selector: 'app-product-detail',
@@ -29,73 +36,70 @@ export class ProductDetailComponent implements OnInit {
 
   addressForm: FormGroup;
 
-
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
-
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-
-
     this.route.params.subscribe(params => {
-      this.id = +params['id'];
-      console.log(this.id);
+      const key = 'id';
+      this.id = +params[key];
     });
 
     //this.currentProduct =
-    this.getProdutos(this.id).then(
-      data => {
-        console.log(data);
+    this.getProdutos(this.id)
+      .then(data => {
         this.currentProduct = data;
 
         const product = this.currentProduct;
-        console.log(product[0].preco);
 
         this.dataFields = {
-        intent: 'CAPTURE',
-        payer: {
-          address: this.dataAddress
-        },
-        purchase_units: [
-          {
-            shipping: {
-              address: this.dataAddress
-            },
-            amount: {
-              currency_code: 'BRL',
-              value: product[0].preco,
-              breakdown: {
-                item_total: {
-                  currency_code: 'BRL',
-                  value: product[0].preco
+          intent: 'CAPTURE',
+          payer: {
+            address: this.dataAddress
+          },
+          purchase_units: [
+            {
+              shipping: {
+                address: this.dataAddress
+              },
+              amount: {
+                currency_code: 'BRL',
+                value: product[0].preco,
+                breakdown: {
+                  item_total: {
+                    currency_code: 'BRL',
+                    value: product[0].preco
+                  }
                 }
-              }
-            },
-            items: [
-              {
-                name: product[0].titulo,
-                quantity: '1',
-                category: 'DIGITAL_GOODS',
-                unit_amount: {
-                  currency_code: 'BRL',
-                  value: product[0].preco
+              },
+              items: [
+                {
+                  name: product[0].titulo,
+                  quantity: '1',
+                  category: 'DIGITAL_GOODS',
+                  unit_amount: {
+                    currency_code: 'BRL',
+                    value: product[0].preco
+                  }
                 }
-              }
-            ]
-          }
-        ]
-      };
-      }
-    ).finally(() => {
-      console.log(this.dataFields);
-      this.initConfig();
-    });
-
-
+              ]
+            }
+          ]
+        };
+      })
+      .finally(() => {
+        // console.log(this.dataFields);
+        this.initConfig();
+      });
   }
 
   async getProdutos(id) {
-    const res = await this.http.get('http://localhost:3000/products/' + id).toPromise();
-
+    const res = await this.http
+      .get('https://still-thicket-40316.herokuapp.com/products/' + id)
+      .toPromise();
 
     return res;
   }
@@ -111,7 +115,7 @@ export class ProductDetailComponent implements OnInit {
       clientId:
         'AeFZmDW4AtJR36IA3bzKD0Ra8_sqX6iOV4yXTd66_Bc_WFbQjv4YN-DNau8TdIk5RS0DSV2v2IahCaAO',
       createOrderOnServer: async data => {
-        const res = await fetch('http://localhost:3000/buy', {
+        const res = await fetch('https://still-thicket-40316.herokuapp.com/buy', {
           method: 'post',
           headers: {
             Accept: 'application/json, text/plain, */*',
@@ -142,7 +146,7 @@ export class ProductDetailComponent implements OnInit {
           'onClientAuthorization - you should probably inform your server about completed transaction at this point',
           data
         );
-        this.router.navigateByUrl('/success');
+        this.router.navigateByUrl('/success/' + data.id);
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {

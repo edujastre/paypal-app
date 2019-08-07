@@ -15,7 +15,7 @@ export class ProductListComponent implements OnInit {
   }
 
   async getProdutos() {
-    const res = await fetch('http://localhost:3000/products');
+    const res = await fetch('https://still-thicket-40316.herokuapp.com/products');
     const listProdutos = await res.json();
     console.log(listProdutos);
     return listProdutos;
