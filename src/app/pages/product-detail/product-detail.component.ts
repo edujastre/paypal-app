@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IPayPalConfig, ICreateOrderRequest, IAddressPortable } from 'ngx-paypal';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
@@ -30,7 +30,7 @@ export class ProductDetailComponent implements OnInit {
   addressForm: FormGroup;
 
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 
 
   ngOnInit() {
@@ -142,6 +142,7 @@ export class ProductDetailComponent implements OnInit {
           'onClientAuthorization - you should probably inform your server about completed transaction at this point',
           data
         );
+        this.router.navigateByUrl('/success');
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {

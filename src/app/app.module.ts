@@ -8,12 +8,14 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { NgxPayPalModule } from 'ngx-paypal';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule }   from '@angular/forms';
+import { SuccessComponent } from './pages/success/success.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductDetailComponent,
-    ProductListComponent
+    ProductListComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,
