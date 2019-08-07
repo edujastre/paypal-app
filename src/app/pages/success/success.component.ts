@@ -7,16 +7,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./success.component.scss']
 })
 export class SuccessComponent implements OnInit {
-  transactionId: number;
+  transactionId: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const key = 'transactionId';
-      this.transactionId = params[key];
-      console.log(this.transactionId);
-    });
+    this.transactionId = this.route.snapshot.paramMap.get('transactionId');
+    console.log(this.transactionId);
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {
   IPayPalConfig,
   ICreateOrderRequest,
@@ -40,7 +40,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -99,7 +100,7 @@ export class ProductDetailComponent implements OnInit {
 
   async getProdutos(id) {
     const res = await this.http
-      .get('https://still-thicket-40316.herokuapp.com/products/' + id)
+      .get('https://paypal-node-jastre.herokuapp.com/products/' + id)
       .toPromise();
 
     return res;
@@ -117,7 +118,7 @@ export class ProductDetailComponent implements OnInit {
         'AeFZmDW4AtJR36IA3bzKD0Ra8_sqX6iOV4yXTd66_Bc_WFbQjv4YN-DNau8TdIk5RS0DSV2v2IahCaAO',
       createOrderOnServer: async data => {
         const res = await fetch(
-          'https://still-thicket-40316.herokuapp.com/buy',
+          'https://paypal-node-jastre.herokuapp.com/buy',
           {
             method: 'post',
             headers: {
@@ -128,9 +129,8 @@ export class ProductDetailComponent implements OnInit {
           }
         );
         const order = await res.json();
-        console.log(order);
-        console.log(data.orderID);
-        this.orderID = order.orderID;
+        // console.log(order);
+        // this.orderID = order.orderID;
         return order.orderID;
       },
       onApprove: (data, actions) => {
@@ -140,6 +140,7 @@ export class ProductDetailComponent implements OnInit {
           actions
         );
         actions.order.get().then(details => {
+          this.orderID = details.id;
           console.log(
             'onApprove - you can get full order details inside onApprove: ',
             details
@@ -153,8 +154,8 @@ export class ProductDetailComponent implements OnInit {
         );
 
         setTimeout(() => {
-          this.router.navigate(['success', this.orderID]);
-        }, 1000);
+          this.ngZone.run(() => this.router.navigate(['success', this.orderID]));
+        }, 500);
         // this.router.navigateByUrl('/success/' + data.id);
         this.showSuccess = true;
       },

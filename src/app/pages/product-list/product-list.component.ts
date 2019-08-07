@@ -15,9 +15,9 @@ export class ProductListComponent implements OnInit {
   }
 
   async getProdutos() {
-    const res = await fetch('https://still-thicket-40316.herokuapp.com/products');
+    const res = await fetch('https://paypal-node-jastre.herokuapp.com/products');
     const listProdutos = await res.json();
-    console.log(listProdutos);
+    // console.log(listProdutos);
     return listProdutos;
   }
 }
