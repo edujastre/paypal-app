@@ -35,6 +35,7 @@ export class ProductDetailComponent implements OnInit {
   };
 
   addressForm: FormGroup;
+  orderID: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -115,17 +116,21 @@ export class ProductDetailComponent implements OnInit {
       clientId:
         'AeFZmDW4AtJR36IA3bzKD0Ra8_sqX6iOV4yXTd66_Bc_WFbQjv4YN-DNau8TdIk5RS0DSV2v2IahCaAO',
       createOrderOnServer: async data => {
-        const res = await fetch('https://still-thicket-40316.herokuapp.com/buy', {
-          method: 'post',
-          headers: {
-            Accept: 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.dataFields)
-        });
+        const res = await fetch(
+          'https://still-thicket-40316.herokuapp.com/buy',
+          {
+            method: 'post',
+            headers: {
+              Accept: 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.dataFields)
+          }
+        );
         const order = await res.json();
         console.log(order);
         console.log(data.orderID);
+        this.orderID = order.orderID;
         return order.orderID;
       },
       onApprove: (data, actions) => {
@@ -147,11 +152,15 @@ export class ProductDetailComponent implements OnInit {
           data
         );
 
-        this.router.navigate(['/success/',  + data.id]);
+        setTimeout(() => {
+          this.router.navigate(['success', this.orderID]);
+        }, 1000);
+        // this.router.navigateByUrl('/success/' + data.id);
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
+
       },
       onError: err => {
         console.log('OnError', err);
