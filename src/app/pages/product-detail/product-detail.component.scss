@@ -1,0 +1,40 @@
+.flex {
+  display: flex;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn-cta {
+  color: #fefefe;
+  background-color: #ff1100;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 0;
+  padding: 10px 15px;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.img-main {
+  width: 90%;
+  max-width: 300px;
+}
+
+.produto-detalhes-box {
+  padding: 10px;
+  margin: 10px;
+}
+

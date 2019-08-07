@@ -1,0 +1,51 @@
+<div class="menu">
+  <a href="/" class="btn-cta">Home</a>
+</div>
+<div class="produto-detalhes-box">
+  <div class="flex horizontal ">
+
+
+    <div class="flex-1" *ngFor="let product of currentProduct">
+      <div class="flex flex-center">
+        <img src="/assets{{ product.img }}" class="img-main" />
+      </div>
+      <br />
+      <h2 class="text-center">{{ product.titulo }}</h2>
+      <p class="text-center">{{ product.descricao }}</p>
+      <h3 class="text-center">Apenas R$ {{ product.preco }}</h3>
+      <br />
+      <!-- <form action="/product-detail/{{ product.id }}" class="flex flex-center">
+        <input type="submit" class="btn-cta" value="COMPRAR">
+      </form> -->
+    </div>
+
+  </div>
+</div>
+
+
+<label for="address_line_1">Address 1
+  <input type="text" [(ngModel)]="dataAddress.address_line_1">
+</label>
+<br>
+
+<label for="address_line_1">Address 2
+  <input type="text" [(ngModel)]="dataAddress.address_line_2">
+</label>
+<br>
+<label for="address_line_1">City
+  <input type="text" [(ngModel)]="dataAddress.admin_area_2">
+</label>
+<br>
+<label for="address_line_1">State
+  <input type="text" [(ngModel)]="dataAddress.admin_area_1">
+</label>
+<br>
+<label for="address_line_1">Zip Code
+  <input type="text" [(ngModel)]="dataAddress.postal_code">
+</label>
+<br>
+<label for="address_line_1">Endereço 1
+
+
+
+  <ngx-paypal [config]="payPalConfig"></ngx-paypal>

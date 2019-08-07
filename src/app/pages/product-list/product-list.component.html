@@ -1,0 +1,25 @@
+<div>
+  <!-- <h1 class="text-center">Loja IT</h1>
+
+  <hr />
+  <br /> -->
+
+  <div class="flex horizontal">
+
+
+      <div class="flex-1" *ngFor="let product of listProducts | async">
+          <div class="flex flex-center">
+              <img src="/assets{{ product.img }}" class="img-main" />
+          </div>
+          <br />
+          <h2 class="text-center">{{ product.titulo }}</h2>
+          <p class="text-center">{{ product.descricao }}</p>
+          <h3 class="text-center">Apenas R$ {{ product.preco }}</h3>
+          <br />
+          <form action="/product-detail/{{ product.id }}" class="flex flex-center">
+              <input type="submit" class="btn-cta" value="COMPRAR" >
+          </form>
+      </div>
+
+</div>
+</div>
