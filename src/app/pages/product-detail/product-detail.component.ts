@@ -146,7 +146,8 @@ export class ProductDetailComponent implements OnInit {
           'onClientAuthorization - you should probably inform your server about completed transaction at this point',
           data
         );
-        this.router.navigateByUrl('/success/' + data.id);
+
+        this.router.navigate(['/success/',  + data.id]);
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {
