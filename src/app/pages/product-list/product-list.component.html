@@ -14,11 +14,11 @@
       <br />
       <h2 class="text-center">{{ product.titulo }}</h2>
       <p class="text-center">{{ product.descricao }}</p>
-      <h3 class="text-center">Apenas R$ {{ product.preco }}</h3>
+      <h3 class="text-center">{{ product.preco| currency }}</h3>
       <br />
       <div class="flex flex-center">
         <a class="btn-cta" [routerLink]="['/product-detail/' + product.id]"
-          routerLinkActive="router-link-active">COMPRAR </a>
+          routerLinkActive="router-link-active">BUY </a>
       </div>
     </div>
 

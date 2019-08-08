@@ -2,7 +2,10 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import {
   IPayPalConfig,
   ICreateOrderRequest,
-  IAddressPortable
+  IAddressPortable,
+  IPartyName,
+  ITaxInfo,
+  IPhone
 } from 'ngx-paypal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +15,16 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+
+interface IPayer {
+  name?: IPartyName;
+  email_address?: string;
+  payer_id?: string;
+  birth_date?: string;
+  tax_info?: ITaxInfo;
+  address?: IAddressPortable;
+  phone?: IPhone;
+}
 
 @Component({
   selector: 'app-product-detail',
@@ -26,12 +39,34 @@ export class ProductDetailComponent implements OnInit {
   showSuccess: boolean;
 
   dataFields: ICreateOrderRequest;
+
+  dataName: IPartyName = {
+    prefix: '',
+    given_name: 'Eduardo',
+    surname: 'Jastre',
+    middle_name: '',
+    suffix: '',
+    alternate_full_name: 'Eduardo Jastre',
+    full_name: 'Eduardo Jastre'
+  };
+
   dataAddress: IAddressPortable = {
     address_line_1: 'Ataliba leonel',
     address_line_2: '452',
     country_code: 'BR',
     postal_code: '11370-450',
-    admin_area_2: 'São Vicente'
+    admin_area_1: 'São Vicente',
+    admin_area_2: 'São Paulo'
+  };
+
+  dataPayer: IPayer = {
+    name: this.dataName,
+    email_address: 'email@gmail.com',
+    address: this.dataAddress,
+    phone: {
+      phone_number: { national_number: '1234-5678' },
+      phone_type: 'MOBILE'
+    }
   };
 
   addressForm: FormGroup;
@@ -50,7 +85,6 @@ export class ProductDetailComponent implements OnInit {
       this.id = +params[key];
     });
 
-    //this.currentProduct =
     this.getProdutos(this.id)
       .then(data => {
         this.currentProduct = data;
@@ -60,7 +94,11 @@ export class ProductDetailComponent implements OnInit {
         this.dataFields = {
           intent: 'CAPTURE',
           payer: {
-            address: this.dataAddress
+            name: {
+              given_name: this.dataName.given_name,
+              surname: this.dataName.surname
+            },
+            address: this.dataAddress,
           },
           purchase_units: [
             {
@@ -154,14 +192,15 @@ export class ProductDetailComponent implements OnInit {
         );
 
         setTimeout(() => {
-          this.ngZone.run(() => this.router.navigate(['success', this.orderID]));
+          this.ngZone.run(() =>
+            this.router.navigate(['success', this.orderID])
+          );
         }, 500);
         // this.router.navigateByUrl('/success/' + data.id);
         this.showSuccess = true;
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
-
       },
       onError: err => {
         console.log('OnError', err);

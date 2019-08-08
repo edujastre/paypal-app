@@ -38,3 +38,22 @@
   margin: 10px;
 }
 
+.main-form {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 70%;
+
+.form {
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    font-size: 16px;
+  }
+
+  input {
+    margin-left: 10px;
+  }
+}}
